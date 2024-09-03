@@ -53,13 +53,10 @@ const ColorPicker = ({ onColorChange }: ColorPickerProps) => {
   }
 
   return (
-    <FormControl
-      fullWidth
-      sx={{
-        my: 2,
-      }}
-    >
-      <InputLabel id="color-picker-label">Select Color</InputLabel>
+    <FormControl fullWidth sx={{ my: 2 }}>
+      <InputLabel id="color-picker-label" color={selectedColor}>
+        Pick a color
+      </InputLabel>
       <Select
         labelId="color-picket-label"
         value={selectedColor}

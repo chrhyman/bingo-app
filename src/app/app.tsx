@@ -4,7 +4,7 @@ import AppProvider from "./providers/app-provider"
 import Header from "@/components/header"
 import BingoGrid from "@/components/bingo-grid"
 import selectWithSeed from "@/utils/select-with-seed"
-import minecraftGoals from "@/bingo-item-lists/minecraft-goals"
+import mwcGoals from "@/bingo-item-lists/mwc-goals"
 
 const BINGO_SQUARES = 25
 
@@ -28,14 +28,16 @@ const App = () => {
 
   const selectedGoals =
     seed && seed.length > 0
-      ? selectWithSeed(BINGO_SQUARES, seed, minecraftGoals)
-      : minecraftGoals.slice(0, BINGO_SQUARES)
+      ? selectWithSeed(BINGO_SQUARES, seed, mwcGoals)
+      : mwcGoals.slice(0, BINGO_SQUARES)
 
   return (
     <AppProvider>
       <Container maxWidth="md" sx={{ pb: 25 }}>
         <Header />
-        <BingoGrid items={selectedGoals} />
+        <Container maxWidth="sm">
+          <BingoGrid items={selectedGoals} seed={seed ? seed : ""} />
+        </Container>
       </Container>
     </AppProvider>
   )
