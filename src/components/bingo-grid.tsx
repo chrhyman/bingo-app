@@ -1,6 +1,15 @@
 import { useState } from "react"
-import { Box, Button, Card, TextField } from "@mui/material"
+import {
+  Box,
+  Button,
+  Card,
+  IconButton,
+  Snackbar,
+  TextField,
+  Tooltip,
+} from "@mui/material"
 import Grid from "@mui/material/Grid2"
+import ShareIcon from "@mui/icons-material/Share"
 import BingoItemButton from "./bingo-item-button"
 import ColorPicker from "./color-picker"
 import { Colors } from "@/types/colors.enum"
@@ -13,6 +22,7 @@ interface BingoGridProps {
 const BingoGrid = ({ items, seed }: BingoGridProps) => {
   const [selectedColor, setSelectedColor] = useState(Colors.Primary)
   const [selectedItems, setSelectedItems] = useState<string[]>([])
+  const [notifOpen, setNotifOpen] = useState(false)
 
   const handleColorChange = (color: Colors) => {
     setSelectedColor(color)
@@ -30,6 +40,13 @@ const BingoGrid = ({ items, seed }: BingoGridProps) => {
 
   const handleReset = () => {
     setSelectedItems([])
+  }
+
+  const handleShareButton = () => {
+    setNotifOpen(true)
+    const { host, pathname } = window.location
+    const urlWithSeed = `${host}${pathname}?seed=${seed}`
+    navigator.clipboard.writeText(urlWithSeed)
   }
 
   return (
@@ -64,6 +81,18 @@ const BingoGrid = ({ items, seed }: BingoGridProps) => {
               value={seed}
               disabled
             />
+            <Tooltip title="Copy sharable link to clipboard">
+              <IconButton color={selectedColor} onClick={handleShareButton}>
+                <ShareIcon />
+              </IconButton>
+            </Tooltip>
+            <Snackbar
+              message="Copied to clipboard"
+              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+              autoHideDuration={1500}
+              onClose={() => setNotifOpen(false)}
+              open={notifOpen}
+            />
           </Box>
         </Grid>
         <Grid size={4}>
@@ -82,7 +111,7 @@ const BingoGrid = ({ items, seed }: BingoGridProps) => {
             <Button
               variant="contained"
               color={selectedColor}
-              onClick={() => handleReset()}
+              onClick={handleReset}
             >
               Clear grid
             </Button>
