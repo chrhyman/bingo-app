@@ -9,34 +9,28 @@ import mwcGoals from "@/bingo-item-lists/mwc-goals"
 const BINGO_SQUARES = 25
 
 const App = () => {
-  const [seed, setSeed] = useState<string | null>(null)
+  const [seed, setSeed] = useState<string>("")
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const rawSeedValue = params.get("seed")
     if (!rawSeedValue) {
       const newSeedValue = Math.ceil(Math.random() * 1e6).toString()
-      console.log(
-        `No seed supplied. Generating a new card with seed '${newSeedValue}'`,
-      )
       setSeed(newSeedValue)
     } else {
-      console.log(`Using supplied seed: '${rawSeedValue}'`)
       setSeed(rawSeedValue)
     }
   }, [])
 
   const selectedGoals =
-    seed && seed.length > 0
-      ? selectWithSeed(BINGO_SQUARES, seed, mwcGoals)
-      : mwcGoals.slice(0, BINGO_SQUARES)
+    seed && seed.length > 0 ? selectWithSeed(BINGO_SQUARES, seed, mwcGoals) : []
 
   return (
     <AppProvider>
       <Container maxWidth="md" sx={{ pb: 25 }}>
         <Header />
         <Container maxWidth="sm">
-          <BingoGrid items={selectedGoals} seed={seed ? seed : ""} />
+          <BingoGrid items={selectedGoals} seed={seed} />
         </Container>
       </Container>
     </AppProvider>

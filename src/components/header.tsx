@@ -23,7 +23,7 @@ const Header = () => {
         }}
       >
         <Typography variant="h6">A micro-React app by Chris</Typography>
-        <WugIcon strokeColor={theme.palette.secondary.dark} />
+        <WugIcon stroke={theme.palette.secondary.dark} />
       </Box>
     </Box>
   )
